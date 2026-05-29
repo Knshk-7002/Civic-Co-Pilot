@@ -203,13 +203,11 @@ schemes
 
 ## Demo Accounts
 
-All accounts use password: **`admin123`**
+| Role | Email | Password | Portal |
+|---|---|---|---|
+| Admin | admin@civic.gov | admin123 | Admin Portal |
 
-| Role | Email | Portal |
-|---|---|---|
-| Admin | admin@civic.gov | Admin Portal |
-| Student | student@example.com | Citizen Portal |
-| Citizen | citizen@example.com | Citizen Portal |
+> New citizen accounts can be registered at `/register` — all new signups are assigned the Citizen role automatically.
 
 ---
 
