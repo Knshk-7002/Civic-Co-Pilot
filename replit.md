@@ -1,20 +1,24 @@
-# [Project name]
+# Civic Co-Pilot
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+An admin dashboard for district-level government administrators to track citizen complaints and recommend official government welfare schemes.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/api-server run dev` — run the API server (port 8080)
+- `pnpm --filter @workspace/civic-copilot run dev` — run the frontend (port 20671)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- Required env: `DATABASE_URL` — Postgres connection string (already provisioned)
+- Optional env: `SESSION_SECRET` — session signing key (already set)
+- Optional env: `ADMIN_USERNAME` / `ADMIN_PASSWORD` — defaults to `admin` / `admin123`
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
+- Frontend: React + Vite + Wouter + TanStack Query + shadcn/ui
+- API: Express 5 + express-session
 - DB: PostgreSQL + Drizzle ORM
 - Validation: Zod (`zod/v4`), `drizzle-zod`
 - API codegen: Orval (from OpenAPI spec)
@@ -22,24 +26,39 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `lib/api-spec/openapi.yaml` — OpenAPI spec (source of truth for all contracts)
+- `lib/db/src/schema/complaints.ts` — Complaints table
+- `lib/db/src/schema/schemes.ts` — Government schemes table
+- `artifacts/api-server/src/routes/auth.ts` — Admin login/logout/session
+- `artifacts/api-server/src/routes/complaints.ts` — Complaint CRUD + stats
+- `artifacts/api-server/src/routes/schemes.ts` — Scheme CRUD
+- `artifacts/civic-copilot/src/` — React frontend
 
-## Architecture decisions
+## Admin Login
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+Default credentials: **username:** `admin` | **password:** `admin123`
+
+To change, set `ADMIN_USERNAME` and `ADMIN_PASSWORD` environment variables.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Admin login with session-based authentication
+- Dashboard with complaint statistics (by status, by category, recent count, high-priority)
+- Complaints list with search, status/category/priority filters
+- Complaint detail view: update status, add admin notes, see relevant scheme recommendations
+- Government schemes directory: browse official schemes with links to govt portals
+- Add new schemes via a form
 
-## User preferences
+## Architecture decisions
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Session-based auth (express-session) — no external auth service needed for a single-admin tool
+- Stats endpoint uses SQL aggregation for accurate counts
+- Complaints are publicly creatable (citizens submit them), but only admins can view/update/delete
+- Schemes are publicly viewable so they can be embedded in public-facing pages later
+- Admin credentials from env vars with safe defaults for development
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
-
-## Pointers
-
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- Run `pnpm --filter @workspace/api-spec run codegen` after any OpenAPI spec change
+- Run `pnpm --filter @workspace/db run push` after DB schema changes
+- Session cookies are not secure (HTTP-only) — enable HTTPS + `secure: true` in production
