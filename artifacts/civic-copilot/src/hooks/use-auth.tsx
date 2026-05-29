@@ -1,6 +1,12 @@
 import { createContext, useContext, ReactNode, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useGetCurrentUser, useLoginUser, useLogoutUser, useRegisterUser } from "@workspace/api-client-react";
+import {
+  useGetCurrentUser,
+  useLoginUser,
+  useLogoutUser,
+  useRegisterUser,
+  getGetCurrentUserQueryKey,
+} from "@workspace/api-client-react";
 import { User, LoginRequest, RegisterRequest } from "@workspace/api-client-react";
 
 interface AuthContextType {
@@ -22,9 +28,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // We explicitly handle errors by returning null so the query doesn't throw and break rendering
   const { data: user, isLoading } = useGetCurrentUser({
     query: {
+      queryKey: getGetCurrentUserQueryKey(),
       retry: false,
       staleTime: Infinity,
-    }
+    },
   });
 
   const { mutateAsync: loginMutation, isPending: isLoggingIn } = useLoginUser({

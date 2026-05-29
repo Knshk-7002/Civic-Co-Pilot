@@ -77,11 +77,11 @@ export function AppLayout({ children }: { children: ReactNode }) {
         <div className="p-4 border-t border-sidebar-border">
           <div className="flex items-center gap-3 px-3 py-2">
             <div className="w-10 h-10 rounded-full bg-sidebar-accent flex items-center justify-center text-primary-foreground border border-sidebar-border">
-              {user.name.charAt(0).toUpperCase()}
+              {(user?.name ?? "U").charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-white truncate">{user.name}</p>
-              <p className="text-xs text-sidebar-foreground/60 truncate capitalize">{user.role.toLowerCase()}</p>
+              <p className="text-sm font-medium text-white truncate">{user?.name ?? ""}</p>
+              <p className="text-xs text-sidebar-foreground/60 truncate capitalize">{(user?.role ?? "").toLowerCase()}</p>
             </div>
           </div>
           <button 
@@ -144,3 +144,6 @@ export function AppLayout({ children }: { children: ReactNode }) {
     </div>
   );
 }
+
+
+

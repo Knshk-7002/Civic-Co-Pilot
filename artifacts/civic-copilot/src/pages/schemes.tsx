@@ -45,7 +45,7 @@ export default function Schemes() {
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1,2,3,4,5,6].map(i => (
-            <Card key={i} className="p-6 min-h-[250px] animate-pulse bg-gray-100" />
+            <div key={i} className="p-6 min-h-[250px] animate-pulse bg-gray-100 rounded-2xl border border-border/60" />
           ))}
         </div>
       ) : schemes && schemes.length > 0 ? (

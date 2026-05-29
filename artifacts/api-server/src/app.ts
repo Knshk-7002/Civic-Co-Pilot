@@ -3,10 +3,17 @@ import cors from "cors";
 import pinoHttp from "pino-http";
 import session from "express-session";
 import cookieParser from "cookie-parser";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import router from "./routes";
 import { logger } from "./lib/logger";
 
 const app: Express = express();
+const isProduction = process.env.NODE_ENV === "production";
+
+if (isProduction) {
+  app.set("trust proxy", 1);
+}
 
 app.use(
   pinoHttp({
@@ -45,13 +52,25 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false,
+      secure: isProduction,
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
+      sameSite: "lax",
     },
   }),
 );
 
 app.use("/api", router);
+
+if (isProduction) {
+  const distDir = path.dirname(fileURLToPath(import.meta.url));
+  const staticRoot = path.resolve(distDir, "../../civic-copilot/dist/public");
+
+  app.use(express.static(staticRoot));
+
+  app.get(/^(?!\/api).*/, (_req, res) => {
+    res.sendFile(path.join(staticRoot, "index.html"));
+  });
+}
 
 export default app;

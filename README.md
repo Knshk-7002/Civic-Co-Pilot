@@ -218,6 +218,33 @@ schemes          — id, name, description, category, eligible_roles, benefits, 
 
 ---
 
+## Deployment
+
+### Render (recommended)
+
+1. Push this repo to GitHub.
+2. Sign in at [render.com](https://render.com) → **New** → **Blueprint**.
+3. Connect `Knshk-7002/Civic-Co-Pilot` and apply `render.yaml`.
+4. Render provisions PostgreSQL, runs migrations, seeds demo data, and publishes the app.
+
+After deploy, open your Render URL and sign in with the [demo accounts](#demo-accounts).
+
+### Replit
+
+This repo includes `.replit` autoscale settings. Import the GitHub repo on Replit, set `DATABASE_URL` and `SESSION_SECRET`, run **Publish**.
+
+### Local production smoke test
+
+```bash
+pnpm install
+cp .env.example .env   # edit DATABASE_URL
+pnpm run db:setup
+$env:PORT="8080"; $env:BASE_PATH="/"; pnpm run build:deploy
+$env:NODE_ENV="production"; pnpm run start
+```
+
+---
+
 ## Future Enhancements
 
 - Real AI/ML model for complaint classification

@@ -24,7 +24,9 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <header className="absolute top-0 left-0 right-0 z-50 p-6 flex justify-between items-center max-w-7xl mx-auto">
         <div className="flex items-center gap-3">
-          <img src={`${import.meta.env.BASE_URL}images/logo.png`} alt="Civic Co-Pilot Logo" className="w-10 h-10 shadow-lg rounded-xl" />
+          <div className="w-10 h-10 shadow-lg rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-display font-bold text-lg">
+            C
+          </div>
           <span className="font-display font-bold text-2xl tracking-tight text-primary">Civic Co-Pilot</span>
         </div>
         <div className="flex items-center gap-4">
@@ -39,14 +41,8 @@ export default function Home() {
 
       <main>
         <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
-          <div className="absolute inset-0 z-0">
-            <img 
-              src={`${import.meta.env.BASE_URL}images/hero-bg.png`} 
-              alt="Hero Background" 
-              className="w-full h-full object-cover opacity-[0.15]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background" />
-          </div>
+          <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary/10 via-indigo-500/5 to-background" />
+          <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/40 via-background/80 to-background" />
 
           <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-8 border border-primary/20">

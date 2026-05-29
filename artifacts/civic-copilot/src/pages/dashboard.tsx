@@ -120,15 +120,17 @@ export default function Dashboard() {
               <p className="text-blue-100 text-sm">Find government programs you might be eligible for.</p>
             </Link>
             
-            <Card hover className="p-5 flex items-start gap-4 cursor-pointer" onClick={() => window.location.href = '/complaints/new'}>
-              <div className="p-3 rounded-xl bg-primary/10 text-primary">
-                <Send className="w-6 h-6" />
-              </div>
-              <div>
-                <h4 className="font-semibold">Submit Feedback</h4>
-                <p className="text-sm text-muted-foreground mt-1">Help us improve the community.</p>
-              </div>
-            </Card>
+            <Link href="/complaints/new" className="block">
+              <Card hover className="p-5 flex items-start gap-4 cursor-pointer">
+                <div className="p-3 rounded-xl bg-primary/10 text-primary">
+                  <Send className="w-6 h-6" />
+                </div>
+                <div>
+                  <h4 className="font-semibold">Submit Feedback</h4>
+                  <p className="text-sm text-muted-foreground mt-1">Help us improve the community.</p>
+                </div>
+              </Card>
+            </Link>
           </div>
         </div>
       </div>
